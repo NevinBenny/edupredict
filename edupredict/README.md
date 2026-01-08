@@ -1,89 +1,96 @@
-<<<<<<< HEAD
-# 🌱 EcoGrow – Greenhouse Environment Monitoring System
+# 🎓 EduPredict – Early Academic Performance Prediction System
 
-EcoGrow is an IoT-based greenhouse monitoring system that uses an ESP32 and sensors to measure temperature, humidity, and CO₂ levels in real time. An AI model analyzes these readings to check whether the environment is safe for plant growth or if it may lead to harmful bacteria or fungal development. The system provides alerts when conditions become risky and also stores historical data to help farmers understand environmental changes over time.
+EduPredict is a full-stack web application designed to **identify and predict academically at-risk students at an early stage**.  
+The system analyzes academic, behavioral, and attendance-related data to help educators take **timely preventive actions** and improve student outcomes.
 
-## ⭐ What EcoGrow Does
-- Monitors temperature, humidity, and CO₂ inside a greenhouse  
-- Uses AI to detect unsafe environmental conditions  
-- Predicts chances of bacteria or fungus growth  
-- Sends alerts when conditions become risky  
-- Shows historical readings and trend graphs  
-- Helps farmers maintain a healthy environment for their crops  
+The application is built using **React** for the frontend and **Flask** for the backend, following a **RESTful architecture**.
 
-## ⭐ How EcoGrow Works
-1. **ESP32 Sensor Module**  
-   The ESP32 collects temperature, humidity, and CO₂ data using connected sensors.
+---
 
-2. **Data Transfer to Backend**  
-   Sensor readings are sent to the backend server for processing.
+## 📌 Problem Statement
 
-3. **AI Analysis**  
-   An AI model checks whether conditions are ideal or may lead to bacterial/fungal growth.
+In many educational institutions, identifying weak or struggling students is often done **manually**, which is:
+- Time-consuming
+- Error-prone
+- Reactive rather than proactive
 
-4. **Alerts & Recommendations**  
-   The system notifies the user when environmental risk increases.
+There is a lack of **early-warning systems** that can predict academic risk before final examinations.
 
-5. **History & Trends**  
-   All readings are stored and displayed as easy-to-understand historical data.
+---
 
-## ⭐ Main Modules
-- Environmental Data Collection  
-- Data Transmission to Backend  
-- AI-Based Risk Prediction  
-- Ideal Condition Comparison  
-- Alerts & Recommendations  
-- History & Trend Analysis  
-- Multi-Zone Monitoring (Optional)
-=======
-🌱 EcoGrow – Greenhouse Environment Monitoring System
+## 🎯 Objectives
 
-EcoGrow is an IoT-based greenhouse monitoring system that uses an ESP32 and sensors to measure temperature, humidity, and CO₂ levels in real time. An AI model checks whether these conditions are safe for plant growth or if they could lead to harmful bacterial or fungal development. The system provides alerts when the environment becomes risky and also shows a history of past readings to help farmers understand how greenhouse conditions change over time.
+- Predict students who are at academic risk
+- Provide early alerts to educators
+- Centralize academic performance data
+- Improve decision-making through data-driven insights
 
-⭐ What EcoGrow Does
+---
 
-Monitors temperature, humidity, and CO₂ in a greenhouse
+## 🚀 Features
 
-Uses an AI model to detect unsafe conditions
+- User authentication (Admin / Teacher)
+- Student data management
+- Academic performance analysis
+- Risk classification (Low / Medium / High)
+- Prediction results dashboard
+- Secure password reset system
+- REST API based architecture
 
-Predicts chances of bacteria or fungus growth
+---
 
-Sends alerts when risk is high
+## 🛠️ Technology Stack
 
-Shows historical data and trends for better understanding
+### Frontend
+- React
+- JavaScript (ES6+)
+- HTML5
+- CSS3
+- Axios / Fetch API
 
-Helps farmers maintain a healthy environment for their crops
+### Backend
+- Flask (Python)
+- Flask-RESTful
+- Flask-CORS
+- Flask-SQLAlchemy
 
-⭐ How EcoGrow Works
+### Database
+- SQLite / MySQL
 
-ESP32 Sensor Module
-The ESP32 collects temperature, humidity, and CO₂ data using connected sensors.
+---
 
-Data Transfer to Backend
-The ESP32 sends all readings to the backend for processing.
+## 🏗️ System Architecture
 
-AI Analysis
-The backend uses an AI model to check if current conditions are safe or may lead to bacteria/fungal growth.
+EduPredict follows a **client-server architecture**:
 
-Alerts & Recommendations
-The system warns the user when conditions become unsafe.
+1. **React Frontend**
+   - Handles user interaction
+   - Sends HTTP requests to backend
+   - Displays prediction results and dashboards
 
-History & Trends
-All readings are stored so the user can view past environmental patterns.
+2. **Flask Backend**
+   - Processes API requests
+   - Handles business logic
+   - Communicates with the database
+   - Returns JSON responses
 
-⭐ Main Modules
+3. **Database**
+   - Stores student data
+   - Stores user credentials
+   - Stores password reset tokens
 
-Environmental Data Collection
+---
 
-Data Transmission to Backend
+## 🔄 Application Workflow
 
-AI-Based Risk Prediction
+1. User logs into the system
+2. Student academic data is entered
+3. Data is sent from React to Flask via API
+4. Flask processes the data and performs prediction
+5. Risk level is calculated
+6. Results are displayed on the frontend
 
-Ideal Condition Comparison
+---
 
-Alerts and Recommendations
+## 📂 Project Structure
 
-History & Trend Analysis
-
-Multi-Zone Monitoring (optional)
->>>>>>> e03f96ae29b9689f2a56571804d3ff912347902e
