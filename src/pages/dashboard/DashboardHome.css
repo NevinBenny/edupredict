@@ -1,57 +1,127 @@
-/* EduPredict Dashboard Home Styles */
+/* DashbordHome Layout Styles */
 
-.dash-container {
+.dash-container.minimal {
+    max-width: 1400px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 32px;
 }
 
-.stats-grid {
+.dash-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.stats-grid.single-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
 
-.charts-row {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 24px;
-}
-
-@media (max-width: 1024px) {
-    .charts-row {
-        grid-template-columns: 1fr;
-    }
-}
-
-.content-section {
+.faculty-actions-bar {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
 }
 
-.section-title {
+.action-group {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #1e293b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-action:hover {
+    background: #0f172a;
+}
+
+.btn-secondary-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-secondary-action:hover {
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+.main-content-split {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+    align-items: start;
+}
+
+.section-header {
+    margin-bottom: 20px;
+}
+
+.section-header h3 {
     font-size: 18px;
     font-weight: 700;
     color: #1e293b;
 }
 
-.risk-summary-card {
+.section-header p {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.risk-chart-box {
     background: white;
-    border-radius: 12px;
     border: 1px solid #e2e8f0;
+    border-radius: 8px;
     padding: 24px;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    align-items: center;
 }
 
-.risk-summary-header {
-    margin-bottom: 20px;
+.chart-sub {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: -10px;
 }
 
-.risk-summary-header h3 {
-    font-size: 16px;
-    font-weight: 600;
-    color: #1e293b;
+@media (max-width: 1200px) {
+    .main-content-split {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid.single-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

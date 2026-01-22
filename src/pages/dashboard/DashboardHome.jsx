@@ -2,107 +2,132 @@ import React, { useEffect, useState } from 'react';
 import './DashboardHome.css';
 import MetricCard from './MetricCard';
 import StatDonutChart from './StatDonutChart';
-import RiskDistributionChart from './RiskDistributionChart';
 import StudentTable from './StudentTable';
-import { Users, GraduationCap, AlertTriangle, Clock } from 'lucide-react';
+import AddStudentModal from './AddStudentModal';
+import { Users, Clock, GraduationCap, AlertTriangle, UserPlus, Play, FileUp } from 'lucide-react';
 
 const DashboardHome = () => {
   const [summary, setSummary] = useState(null);
   const [distribution, setDistribution] = useState(null);
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      const [summaryRes, distRes, studentsRes] = await Promise.all([
+        fetch('http://localhost:5000/api/dashboard/summary').then(res => res.json()),
+        fetch('http://localhost:5000/api/dashboard/risk-distribution').then(res => res.json()),
+        fetch('http://localhost:5000/api/students').then(res => res.json())
+      ]);
+
+      setSummary(summaryRes);
+      setDistribution(distRes);
+      setStudents(studentsRes.students);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [summaryRes, distRes, studentsRes] = await Promise.all([
-          fetch('http://localhost:5000/api/dashboard/summary').then(res => res.json()),
-          fetch('http://localhost:5000/api/dashboard/risk-distribution').then(res => res.json()),
-          fetch('http://localhost:5000/api/students').then(res => res.json())
-        ]);
-
-        setSummary(summaryRes);
-        setDistribution(distRes);
-        setStudents(studentsRes.students);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-        setLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px' }}>
-        <p style={{ color: '#64748b', fontWeight: 500 }}>Loading academic insights...</p>
+      <div className="dash-loading">
+        <p>Syncing faculty records...</p>
       </div>
     );
   }
 
-  const donutData = [
-    { name: 'Passed', value: distribution?.passed || 0 },
-    { name: 'Medium Risk', value: distribution?.medium_risk || 0 },
-    { name: 'High Risk', value: distribution?.high_risk || 0 }
-  ];
-
   return (
-    <div className="dash-container">
-      {/* Summary Section */}
-      <div className="stats-grid">
+    <div className="dash-container minimal">
+      {/* 1. Top Summary Cards */}
+      <div className="stats-grid single-row">
         <MetricCard
           label="Total Students"
           value={summary?.total_students}
-          icon={<Users size={18} />}
-          trend="up"
-          trendValue="+12"
-        />
-        <MetricCard
-          label="Pass Percentage"
-          value={summary?.pass_percentage}
-          unit="%"
-          icon={<GraduationCap size={18} />}
-          trend="up"
-          trendValue="+2.4%"
-        />
-        <MetricCard
-          label="High-Risk Students"
-          value={summary?.high_risk_students}
-          icon={<AlertTriangle size={18} />}
-          trend="down"
-          trendValue="-5"
+          icon={<Users size={16} />}
+          color="#3b82f6"
         />
         <MetricCard
           label="Avg Attendance"
           value={summary?.avg_attendance}
           unit="%"
-          icon={<Clock size={18} />}
+          icon={<Clock size={16} />}
+          trend="up"
+          trendValue="+1.2%"
+          color="#10b981"
+        />
+        <MetricCard
+          label="Avg SGPA"
+          value={summary?.avg_sgpa}
+          icon={<GraduationCap size={16} />}
+          trend="up"
+          trendValue="+0.15"
+          color="#6366f1"
+        />
+        <MetricCard
+          label="High Risk"
+          value={summary?.high_risk_students}
+          icon={<AlertTriangle size={16} />}
           trend="down"
-          trendValue="-0.8%"
+          trendValue="-2"
+          color="#ef4444"
         />
       </div>
 
-      {/* Charts Section */}
-      <div className="charts-row">
-        <div className="risk-summary-card">
-          <div className="risk-summary-header">
-            <h3>Pass & Risk Overview</h3>
-          </div>
-          <StatDonutChart
-            data={donutData}
-            centerText={`${summary?.pass_percentage}%`}
-          />
+      {/* 2. Faculty Actions Area */}
+      <div className="faculty-actions-bar">
+        <div className="action-group">
+          <button className="btn-action pulse">
+            <Play size={16} />
+            Run Risk Prediction
+          </button>
         </div>
-        <RiskDistributionChart data={distribution?.risk_levels || []} />
+        <div className="action-group">
+          <button className="btn-secondary-action">
+            <FileUp size={16} />
+            Import CSV
+          </button>
+          <button className="btn-secondary-action" onClick={() => setShowAddModal(true)}>
+            <UserPlus size={16} />
+            Add Student
+          </button>
+        </div>
       </div>
 
-      {/* Student Details Section */}
-      <div className="content-section">
-        <h2 className="section-title">Individual Student Performance</h2>
-        <StudentTable students={students} />
+      <div className="main-content-split">
+        {/* 4. Student Records Table (Primary Focus) */}
+        <div className="primary-section">
+          <div className="section-header">
+            <h3>Student Academic Records</h3>
+            <p>Managing {students.length} students for the current semester</p>
+          </div>
+          <StudentTable students={students} />
+        </div>
+
+        {/* 3. Risk Visualization (Secondary) */}
+        <div className="secondary-section">
+          <div className="section-header">
+            <h3>Risk Distribution</h3>
+          </div>
+          <div className="risk-chart-box">
+            <StatDonutChart data={distribution || []} centerText={`${summary?.high_risk_students}`} />
+            <p className="chart-sub">Students in high-risk category</p>
+          </div>
+        </div>
       </div>
+
+      {showAddModal && (
+        <AddStudentModal
+          onClose={() => setShowAddModal(false)}
+          onStudentAdded={fetchData}
+        />
+      )}
     </div>
   );
 };

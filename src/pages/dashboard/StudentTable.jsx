@@ -1,28 +1,27 @@
 import React, { useState } from 'react';
 import './DashboardComponents.css';
+import StudentDetailModal from './StudentDetailModal';
 
 const StudentTable = ({ students }) => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [filterDept, setFilterDept] = useState('All');
     const [filterRisk, setFilterRisk] = useState('All');
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 7;
+    const [selectedStudent, setSelectedStudent] = useState(null);
 
     const filteredStudents = students.filter(student => {
         const matchesSearch = student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            student.id.toLowerCase().includes(searchTerm.toLowerCase());
+            student.student_id.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesDept = filterDept === 'All' || student.department === filterDept;
         const matchesRisk = filterRisk === 'All' || student.risk_level === filterRisk;
-        return matchesSearch && matchesRisk;
+        return matchesSearch && matchesDept && matchesRisk;
     });
 
-    const totalPages = Math.ceil(filteredStudents.length / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const paginatedStudents = filteredStudents.slice(startIndex, startIndex + itemsPerPage);
+    const departments = ['All', ...new Set(students.map(s => s.department))];
 
     return (
-        <div className="student-table-container">
-            <div className="table-controls">
+        <div className="student-table-section">
+            <div className="table-controls minimal">
                 <div className="search-box">
-                    <span className="search-icon">🔍</span>
                     <input
                         type="text"
                         placeholder="Search by ID or Name..."
@@ -30,72 +29,60 @@ const StudentTable = ({ students }) => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <div className="risk-filter">
+                <div className="filters">
+                    <select value={filterDept} onChange={(e) => setFilterDept(e.target.value)}>
+                        {departments.map(dept => <option key={dept} value={dept}>{dept} Dept</option>)}
+                    </select>
                     <select value={filterRisk} onChange={(e) => setFilterRisk(e.target.value)}>
-                        <option value="All">All Risk Levels</option>
+                        <option value="All">All Risk</option>
                         <option value="Low">Low Risk</option>
-                        <option value="Medium">Medium Risk</option>
+                        <option value="Medium">Medium</option>
                         <option value="High">High Risk</option>
                     </select>
                 </div>
             </div>
-            <table className="student-table">
-                <thead>
-                    <tr>
-                        <th>Student ID</th>
-                        <th>Name</th>
-                        <th>Department</th>
-                        <th>Attendance</th>
-                        <th>IA Score</th>
-                        <th>Risk Level</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {paginatedStudents.length > 0 ? (
-                        paginatedStudents.map(student => (
-                            <tr key={student.id}>
-                                <td style={{ fontWeight: 500, color: '#64748b' }}>{student.id}</td>
-                                <td style={{ fontWeight: 600 }}>{student.name}</td>
+
+            <div className="table-wrapper">
+                <table className="student-table minimal">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Sem</th>
+                            <th>Attendance</th>
+                            <th>SGPA</th>
+                            <th>Backlogs</th>
+                            <th>Risk Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredStudents.map(student => (
+                            <tr key={student.student_id} onClick={() => setSelectedStudent(student)}>
+                                <td className="st-id">{student.student_id}</td>
+                                <td className="st-name">{student.name}</td>
                                 <td>{student.department}</td>
-                                <td>{student.attendance}</td>
-                                <td style={{ fontWeight: 600 }}>{student.internal_score}/100</td>
+                                <td>{student.semester}</td>
+                                <td>{student.attendance_percentage}%</td>
+                                <td className="st-sgpa">{student.sgpa}</td>
+                                <td className={`st-backlogs ${student.backlogs > 0 ? 'warning' : ''}`}>{student.backlogs}</td>
                                 <td>
-                                    <span className={`risk-badge ${student.risk_level.toLowerCase()}`}>
+                                    <span className={`risk-badge minimal ${student.risk_level.toLowerCase()}`}>
                                         {student.risk_level}
                                     </span>
                                 </td>
-                                <td>
-                                    <button className="btn-view">View Details</button>
-                                </td>
                             </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="7" style={{ textAlign: 'center', padding: '48px', color: '#94a3b8' }}>
-                                No students found matching your criteria.
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-            <div className="pagination">
-                <span>Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredStudents.length)} of {filteredStudents.length} students</span>
-                <div className="pagination-btns">
-                    <button
-                        disabled={currentPage === 1}
-                        onClick={() => setCurrentPage(prev => prev - 1)}
-                    >
-                        Prev
-                    </button>
-                    <button
-                        disabled={currentPage === totalPages || totalPages === 0}
-                        onClick={() => setCurrentPage(prev => prev + 1)}
-                    >
-                        Next
-                    </button>
-                </div>
+                        ))}
+                    </tbody>
+                </table>
             </div>
+
+            {selectedStudent && (
+                <StudentDetailModal
+                    student={selectedStudent}
+                    onClose={() => setSelectedStudent(null)}
+                />
+            )}
         </div>
     );
 };

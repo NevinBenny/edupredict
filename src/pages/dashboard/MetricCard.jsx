@@ -1,22 +1,21 @@
 import React from 'react';
 import './DashboardComponents.css';
 
-const MetricCard = ({ label, value, unit, icon, trend, trendValue }) => {
+const MetricCard = ({ label, value, unit, icon, trend, trendValue, color }) => {
     return (
-        <div className="metric-card">
+        <div className="metric-card minimal">
             <div className="metric-header">
-                <span className="metric-icon">{icon}</span>
                 <span className="metric-label">{label}</span>
+                <span className="metric-icon" style={{ color: color }}>{icon}</span>
             </div>
             <div className="metric-body">
                 <span className="metric-value">{value}</span>
                 {unit && <span className="metric-unit">{unit}</span>}
             </div>
-            {trend && (
-                <div className={`metric-trend ${trend}`}>
-                    <span className="trend-arrow">{trend === 'up' ? '↑' : '↓'}</span>
+            {trendValue && (
+                <div className={`metric-footer ${trend}`}>
                     <span className="trend-value">{trendValue}</span>
-                    <span className="trend-text">since last month</span>
+                    <span className="trend-label">vs last sem</span>
                 </div>
             )}
         </div>

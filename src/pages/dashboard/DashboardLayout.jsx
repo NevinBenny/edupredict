@@ -8,25 +8,12 @@ import icon from '../../assets/icon.png'
 
 const navSections = [
   {
-    title: 'Academic Overview',
     links: [
       { label: 'Dashboard', to: '/dashboard', end: true },
-      { label: 'Student Details', to: '/dashboard/students' },
-    ],
-  },
-  {
-    title: 'Risk Management',
-    links: [
+      { label: 'Students', to: '/dashboard/students' },
       { label: 'Risk Analysis', to: '/dashboard/ai-risk' },
-      { label: 'Intervention Tracking', to: '/dashboard/interventions' },
+      { label: 'Interventions', to: '/dashboard/interventions' },
       { label: 'Reports', to: '/dashboard/reports' },
-    ],
-  },
-  {
-    title: 'System',
-    links: [
-      { label: 'Settings', to: '/dashboard/settings' },
-      { label: 'Help & Support', to: '/dashboard/help' },
     ],
   },
 ]
@@ -88,32 +75,21 @@ const DashboardLayout = () => {
         </div>
 
         <nav className="sidebar-nav" aria-label="Dashboard navigation">
-          {navSections.map((section) => (
-            <div className="nav-section" key={section.title}>
-              <p className="nav-section-title">{section.title}</p>
-              <ul>
-                {section.links.map((link) => (
-                  <li key={link.label}>
-                    {link.to ? (
-                      <NavLink
-                        to={link.to}
-                        end={Boolean(link.end)}
-                        className={({ isActive }) =>
-                          `nav-link ${isActive ? 'nav-link-active' : ''}`
-                        }
-                      >
-                        {link.label}
-                      </NavLink>
-                    ) : (
-                      <span className="nav-link" style={{ opacity: 0.5, cursor: 'not-allowed' }}>
-                        {link.label}
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <ul>
+            {navSections[0].links.map((link) => (
+              <li key={link.label}>
+                <NavLink
+                  to={link.to}
+                  end={Boolean(link.end)}
+                  className={({ isActive }) =>
+                    `nav-link ${isActive ? 'nav-link-active' : ''}`
+                  }
+                >
+                  {link.label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
         </nav>
 
         <div style={{ marginTop: 'auto' }}>
@@ -135,19 +111,20 @@ const DashboardLayout = () => {
       </aside>
 
       <div className="dashboard-main">
-        <header className="dashboard-topbar">
+        <header className="dashboard-topbar minimal">
           <div className="topbar-left">
-            <p className="crumb">EduPredict / Dashboard</p>
-            <h1>Academic Overview</h1>
+            <h1 className="portal-title">Faculty Portal</h1>
           </div>
           <div className="topbar-actions">
-            <input className="search-input" type="search" placeholder="Search students..." aria-label="Search" />
-            <button className="btn-ghost" type="button">Refresh</button>
-            <NavLink to="/dashboard/account" className="user-chip" aria-label={`${userProfile.name} - ${userProfile.role}`} style={{ textDecoration: 'none', cursor: 'pointer' }}>
-              <div className="user-avatar">{userProfile.name.charAt(0).toUpperCase()}</div>
-              <div>
-                <p className="user-name">{userProfile.name}</p>
-                <p className="user-role">{userProfile.role === 'ADMIN' ? 'Administrator' : 'User'}</p>
+            <div className="notifications-icon">
+              <span className="dot"></span>
+              🔔
+            </div>
+            <NavLink to="/dashboard/account" className="user-profile-chip">
+              <div className="avatar">{userProfile.name.charAt(0)}</div>
+              <div className="info">
+                <span className="name">{userProfile.name}</span>
+                <span className="role">Faculty</span>
               </div>
             </NavLink>
           </div>
