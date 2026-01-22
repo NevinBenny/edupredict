@@ -1,0 +1,80 @@
+# ===============================
+# Environment Variables (SECRETS)
+# ===============================
+.env
+.env.*
+*.env
+
+# ===============================
+# Python / Django
+# ===============================
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+
+# Django settings
+local_settings.py
+
+# Virtual environments
+venv/
+.venv/
+env/
+**/.env
+# ===============================
+# Node / React
+# ===============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+build/
+dist/
+
+# ===============================
+# Static / Media files
+# ===============================
+staticfiles/
+media/
+
+# ===============================
+# OS / Editor junk
+# ===============================
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+
+# IntelliJ / PyCharm
+.idea/
+
+# ===============================
+# Git / CI
+# ===============================
+*.orig
+*.rej
+
+# ===============================
+# Test & Coverage
+# ===============================
+.coverage
+htmlcov/
+pytest_cache/
+
+# ===============================
+# Large / Generated files
+# ===============================
+*.zip
+*.tar
+*.gz
+
+# ===============================
+# Ignore credentials & keys
+# ===============================
+*.pem
+*.key
+credentials.json

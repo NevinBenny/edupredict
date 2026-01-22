@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+:root {
+  /* Font Family */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Palette - Industrial Nature */
+  --c-bg-app: #f2f4f1;
+  /* Light concrete/clay */
+  --c-surface: #ffffff;
+  --c-surface-muted: #f7f9f7;
+
+  --c-border-strong: #a0a6a0;
+  /* Structural steel */
+  --c-border-subtle: #daddd9;
+
+  --c-text-primary: #1a1d1a;
+  --c-text-secondary: #5a605a;
+  --c-text-tertiary: #8a908a;
+
+  --c-accent-primary: #2d5a27;
+  /* Deep industrial green */
+  --c-accent-hover: #1e3e1a;
+
+  --c-status-safe: #2d5a27;
+  --c-status-safe-bg: #e6f0e4;
+  --c-status-warn: #8a6d0b;
+  --c-status-warn-bg: #fbf5e0;
+  --c-status-danger: #8a1c1c;
+  --c-status-danger-bg: #fbeaea;
+
+  /* Spacing & Layout */
+  --grid-gap: 16px;
+  --radius-sm: 2px;
+  /* Sharp, engineered corners */
+  --radius-md: 4px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--c-bg-app);
+  color: var(--c-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+}
+
+a {
+  color: var(--c-accent-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a:hover {
+  text-decoration: underline;
+}
